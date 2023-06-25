@@ -16,8 +16,15 @@ const photos = [
 ];
 
 function App() {
+  const [input, setInput] = useState();
   const [items, setItems] = useState(photos);
   const [isCollapsed, collapse] = useState(false);
+
+  const handleOnChange = (e) => setInput(e.target.value);
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    setItems([input, ...items]);
+  };
 
   const toggle = () => collapse(!isCollapsed);
   return (
@@ -36,7 +43,11 @@ function App() {
           {isCollapsed ? "Close" : "+Add"}
         </button>
         <div className="clearfix mb-4"></div>
-        <UploadForm isVisible={isCollapsed} />
+        <UploadForm
+          isVisible={isCollapsed}
+          onChange={handleOnChange}
+          onSubmit={handleOnSubmit}
+        />
         <h1>Gallery</h1>
         <div className="row">
           {items.map((photo) => (
