@@ -35,6 +35,8 @@ function App() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     setItems([inputs.path, ...items]);
+    setInput({ title: null, file: null, path: null });
+    collapse(false);
   };
 
   const toggle = () => collapse(!isCollapsed);
@@ -60,6 +62,7 @@ function App() {
         </button>
         <div className="clearfix mb-4"></div>
         <UploadForm
+          inputs={inputs}
           isVisible={isCollapsed}
           onChange={handleOnChange}
           onSubmit={handleOnSubmit}
