@@ -1,8 +1,7 @@
-import { useEffect, useState, useReducer } from "react";
+import { useMemo, useReducer } from "react";
 import "./App.css";
 import Card from "./components/Card";
-import Navbar from "./components/Navbar";
-import UploadForm from "./components/UploadForm";
+import Layout from "./components/Layout";
 
 const photos = [];
 const initialState = {
@@ -28,6 +27,8 @@ function reducer(state, action) {
       return {
         ...state,
         items: [state.inputs, ...state.items],
+        count: state.items.length + 1,
+        inputs: { title: null, file: null, path: null },
       };
     case "setInput":
       return {
@@ -46,7 +47,6 @@ function reducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [count, setCount] = useState();
 
   const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } });
   const handleOnChange = (e) =>
@@ -59,39 +59,28 @@ function App() {
   };
 
   // const toggle = () => collapse(!isCollapsed);
-
-  useEffect(() => {
-    setCount(
-      `You have ${state.items.length} image${state.items.length > 1 ? "s" : ""}`
-    );
+  const count = useMemo(() => {
+    return `You have ${state.items.length} image${
+      state.items.length > 1 ? "s" : ""
+    }`;
   }, [state.items]);
 
   return (
     <>
-      <Navbar />
-      <div className="container text-center mt-5">
-        <button
-          className="btn btn-success float-end"
-          onClick={() => toggle(!state.isCollapsed)}
-        >
-          {state.isCollapsed ? "Close" : "+Add"}
-        </button>
-        <div className="clearfix mb-4"></div>
-        <UploadForm
-          inputs={state.inputs}
-          isVisible={state.isCollapsed}
-          onChange={handleOnChange}
-          onSubmit={handleOnSubmit}
-        />
-
+      <Layout
+        onChange={handleOnChange}
+        onSubmit={handleOnSubmit}
+        state={state}
+        toggle={toggle}
+      >
         {count}
-        <h1>Gallery</h1>
+        <h1 className="text-center">Gallery</h1>
         <div className="row">
-          {state.items.map((photo) => (
-            <Card key={photo} src={photo.path} />
+          {state.items.map((item, index) => (
+            <Card key={index} {...item} />
           ))}
         </div>
-      </div>
+      </Layout>
     </>
   );
 }
