@@ -1,9 +1,10 @@
-import { useMemo, useReducer } from "react";
+import { useContext, useMemo} from "react";
 import "./App.css";
 import Card from "./components/Card";
 import Layout from "./components/Layout";
+import { Context } from "./context";
 
-const photos = [];
+/* const photos = [];
 const initialState = {
   items: photos,
   count: photos.length,
@@ -44,10 +45,10 @@ function reducer(state, action) {
       return state;
   }
 }
-
+*/
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
+  const { dispatch, state } = useContext(Context);
+  debugger;
   const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } });
   const handleOnChange = (e) =>
     dispatch({ type: "setInput", payload: { value: e } });
