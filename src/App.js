@@ -1,4 +1,4 @@
-import { useContext, useMemo} from "react";
+import { useContext, useMemo } from "react";
 import "./App.css";
 import Card from "./components/Card";
 import Layout from "./components/Layout";
@@ -47,17 +47,7 @@ function reducer(state, action) {
 }
 */
 function App() {
-  const { dispatch, state } = useContext(Context);
-  debugger;
-  const toggle = (bool) => dispatch({ type: "collapse", payload: { bool } });
-  const handleOnChange = (e) =>
-    dispatch({ type: "setInput", payload: { value: e } });
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    dispatch({ type: "setItems" });
-    // collapse(false);
-    toggle(!state.isCollapsed);
-  };
+  const { state } = useContext(Context);
 
   // const toggle = () => collapse(!isCollapsed);
   const count = useMemo(() => {
@@ -68,12 +58,7 @@ function App() {
 
   return (
     <>
-      <Layout
-        onChange={handleOnChange}
-        onSubmit={handleOnSubmit}
-        state={state}
-        toggle={toggle}
-      >
+      <Layout>
         {count}
         <h1 className="text-center">Gallery</h1>
         <div className="row">
