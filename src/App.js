@@ -1,8 +1,9 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import "./App.css";
 import Card from "./components/Card";
 import Layout from "./components/Layout";
 import { Context } from "./context";
+import app from "./lib/firebase.config";
 
 /* const photos = [];
 const initialState = {
@@ -55,6 +56,10 @@ function App() {
       state.items.length > 1 ? "s" : ""
     }`;
   }, [state.items]);
+
+  useEffect(() => {
+    app();
+  }, []);
 
   return (
     <>
